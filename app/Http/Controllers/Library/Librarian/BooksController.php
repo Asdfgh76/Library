@@ -149,18 +149,20 @@ class BooksController extends BaseController
      */
     public function issued(Request $request)
     {
-       $issueds = Issued::insert([
+        $status = '2';
+        $issueds = Issued::insert([
         'books_id' => $request->book_id,
         'user_id' => $request->user_id,
         'created_at' => now(),
         'return_date' => Carbon::now()->addDays(10),
         ]);
 
-       if(!$issueds){
+        if(!$issueds){
         return back()
         ->withFail('Ошибка!');
-       }else{
+        }else{
         $this->bookedRepository->delete($request->book_id);
+        $this->booksRepository->updatedStatus($request->book_id,$status);
         return redirect('/librarian/booked')->withSuccess ('Книга выдана');
        }
     }
@@ -173,8 +175,10 @@ class BooksController extends BaseController
      */
     public function accepted($id)
     {
-        $this->issuedRepository->getDelete($id);
-
+        //dd($id);
+        $status = '0';
+        $this->issuedRepository->delete($id);
+        $this->booksRepository->updatedStatus($id,$status);
         return redirect('/librarian/bookshand');
     }
 }

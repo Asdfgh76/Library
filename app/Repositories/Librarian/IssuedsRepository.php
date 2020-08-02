@@ -21,6 +21,11 @@ class IssuedsRepository extends CoreRepository
         return Model::class;
     }
 
+    /**
+     * Вывод всех выданных книг
+     *
+     * @return void
+     */
     public function getAllIssued()
     {
         $bookshand = $this->startConditions()
@@ -33,6 +38,11 @@ class IssuedsRepository extends CoreRepository
         return $bookshand;
     }
 
+    /**
+     * Вывод всех выданных книг клиенту
+     *
+     * @return void
+     */
     public function getUserIssued()
     {
         $user_id = Auth::user()->id;
@@ -45,5 +55,16 @@ class IssuedsRepository extends CoreRepository
         ->paginate(10);
 
         return $bookshand;
+    }
+
+    /**
+     * Удаление книги из таблицы "issued"
+     *
+     * @param  mixed $book_id
+     * @return void
+     */
+    public function delete($book_id)
+    {
+        $this->startConditions()->where('books_id', '=', $book_id)->delete();
     }
 }

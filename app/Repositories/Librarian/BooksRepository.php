@@ -20,6 +20,11 @@ class BooksRepository extends CoreRepository
         return Model::class;
     }
 
+    /**
+     * Вывод всех книг в библиотеке
+     *
+     * @return void
+     */
     public function getAllBooks()
     {
         $books = $this->startConditions()
@@ -34,6 +39,13 @@ class BooksRepository extends CoreRepository
         return $books;
     }
 
+    /**
+     * Поиск книг
+     *
+     * @param  mixed $val
+     * @param  mixed $line
+     * @return void
+     */
     public function searchTitle($val,$line)
     {
         $books = $this->startConditions($val)
@@ -49,6 +61,12 @@ class BooksRepository extends CoreRepository
         return $books;
     }
 
+    /**
+     * Просмотр книги
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function showBook($id)
     {
         $books = $this->startConditions()
@@ -61,5 +79,19 @@ class BooksRepository extends CoreRepository
             ->get();
 
         return $books;
+    }
+
+    /**
+     * Обновление статуса книги
+     *
+     * @param  mixed $id
+     * @param  mixed $status
+     * @return void
+     */
+    public function updatedStatus($id,$status)
+    {
+        $this->startConditions()
+            ->where('id', '=', $id)
+            ->update(['status' => $status]);
     }
 }

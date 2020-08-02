@@ -21,6 +21,11 @@ class BookedsRepository extends CoreRepository
         return Model::class;
     }
 
+    /**
+     * Вывод забронированных книг
+     *
+     * @return void
+     */
     public function getAllBooked()
     {
         $bookeds = $this->startConditions()
@@ -33,6 +38,12 @@ class BookedsRepository extends CoreRepository
         return $bookeds;
     }
 
+    /**
+     * Удаление книги из таблицы "booked"
+     *
+     * @param  mixed $books_id
+     * @return void
+     */
     public function delete($books_id)
     {
         $this->startConditions()->where('books_id', '=', $books_id)->delete();

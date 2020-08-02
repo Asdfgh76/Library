@@ -60,11 +60,11 @@
                                     <td>{{ $book->publishing }}</td>
                                     <td style="font-size:17px">
                                         @if($book->status == 0)
-                                        <span class="badge badge-success">В наличии</span>
+                                        <span class="badge badge-success col-md-12">В наличии</span>
                                         @elseif($book->status == 1)
-                                        <span class="badge badge-secondary">Забронированна</span>
+                                        <span class="badge badge-secondary col-md-12">Забронированна</span>
                                         @elseif($book->status == 2)
-                                        <span class="badge badge-warning">Выданна</span>
+                                        <span class="badge badge-warning col-md-12">Выданна</span>
                                         @endif
                                     </td>
                                     <td>

@@ -51,3 +51,7 @@ Route::post('librarian/issued', 'Library\Librarian\BooksController@issued')->nam
 Route::post('librarian/{id}/destroybooked', 'Library\Librarian\BooksController@destroyBooked')->name('librarian.destroybooked');
 Route::get('librarian/booked', 'Library\Librarian\BooksController@booked')->name('librarian.booked');
 Route::resource('librarian', 'Library\Librarian\BooksController');
+
+Route::resource('librarian/author', 'Library\Librarian\AuthorController');
+Route::resource('librarian/genre', 'Library\Librarian\GenreController');
+Route::resource('librarian/publishing', 'Library\Librarian\PublishingController');

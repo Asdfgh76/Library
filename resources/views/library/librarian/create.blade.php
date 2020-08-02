@@ -16,6 +16,11 @@
                   {{Session::get('fail')}}
               </div>
              @endif
+             @if(Session::has('success'))
+            <div class="alert alert-success">
+                {{Session::get('success')}}
+            </div>
+            @endif
             <div class="card">
                 <div class="card-header">{{ __('Добавление книги') }}</div>
 
@@ -23,9 +28,8 @@
                     <form method="POST" action="{{ route('librarian.store') }}">
                         @csrf
 
-                        <div class="form-group row">
+                        <div class="form-group row align-items-center">
                             <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Название') }}</label>
-
                             <div class="col-md-6">
                                 <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus>
 
@@ -36,9 +40,9 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row align-items-center">
                             <label for="author" class="col-md-4 col-form-label text-md-right">{{ __('Автор') }}</label>
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                             <select name="author" id="author" class="form-control" >
                                 <option value="0">Выберите автора</option>
                                 @foreach($authors as $author)
@@ -50,14 +54,16 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-
                             </div>
+                            <a href = "{{ route('author.create') }}" class="btn btn-primary col-md-3" role="button">
+                            Добавить автора
+                            </a>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row align-items-center">
                             <label for="genre" class="col-md-4 col-form-label text-md-right">{{ __('Жанр') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <select name="genre" id="genre" class="form-control" >
                                     <option value="0">Выберите жанр</option>
                                     @foreach($genres as $genre)
@@ -71,12 +77,15 @@
                                     </span>
                                 @enderror
                             </div>
+                            <a href = "{{ route('genre.create') }}" class="btn btn-primary col-md-3" role="button">
+                                Добавить жанр
+                            </a>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row align-items-center">
                             <label for="publishing" class="col-md-4 col-form-label text-md-right">{{ __('Издательство') }}</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <select name="publishing" id="publishing" class="form-control" >
                                     <option value="0">Выберите издательство</option>
                                     @foreach($publishings as $publishing)
@@ -90,6 +99,9 @@
                                     </span>
                                 @enderror
                             </div>
+                            <a href = "{{ route('publishing.create') }}" class="btn btn-primary col-md-3" role="button">
+                                Добавить издателя
+                            </a>
                         </div>
 
                         <div class="form-group row mb-0">

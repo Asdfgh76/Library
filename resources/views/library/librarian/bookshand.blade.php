@@ -34,7 +34,7 @@
                                     <td>{{ $bookhand->created_at }}</td>
                                     <td>{{ $bookhand->return_date }}</td>
                                     <td>
-                                        <a class="btn btn-xs" href = "{{ route('librarian.accepted', $bookhand->id)}}">
+                                        <a class="btn btn-xs" href = "{{ route('librarian.accepted', $bookhand->book_id)}}">
                                         <button type = "button" class = "btn btn-success">Принять</button>
                                         </a>
                                     </td>
