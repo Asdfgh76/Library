@@ -58,9 +58,13 @@ class User extends Authenticatable
         if ($librarian) return "librarian";
     }
 
-    public function isVisitor()
+    public function booked(){
+        return $this->hasMany(Booked::class);
+    }
+
+    /*public function isVisitor()
     {
         $user = $this->roles()->where('name', '')->exists();
         if ($user) return 'user';
-    }
+    }*/
 }

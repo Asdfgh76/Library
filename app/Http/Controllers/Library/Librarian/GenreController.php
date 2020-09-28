@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Library\Librarian;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Librarian\GenreAddRequest;
 use App\Http\Controllers\Library\Librarian\BaseController;
 use App\Models\Librarian\Genre;
 
@@ -47,14 +47,13 @@ class GenreController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GenreAddRequest $request)
     {
-        if (count($this->genre->checkGenre($request->title)) == 0) {
-            $this->genre->saveGenre($request->title);
-            return redirect('/librarian/create')->withSuccess ('Жанр добавлен');
+        if ($this->genre->create($request->input())) {
+            return redirect('/librarian/create')
+            ->withSuccess ('Жанр добавлен');
         }else{
             return back()
-            ->withFail('Такой жанр уже есть!')
             ->withInput();
         }
     }
@@ -88,10 +87,10 @@ class GenreController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    /*public function update(Request $request, $id)
     {
         //
-    }
+    }*/
 
     /**
      * Remove the specified resource from storage.

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Library\Librarian;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Librarian\BookAddRequest;
+use App\Http\Requests\Librarian\IssuedAddRequest;
 use Carbon\Carbon;
 use App\Http\Controllers\Library\Librarian\BaseController;
 use App\Repositories\Librarian\BooksRepository;
@@ -26,6 +27,7 @@ class BooksController extends BaseController
     private $authors;
     private $genres;
     private $publishings;
+    private $books;
 
     /**
      * __construct
@@ -38,7 +40,7 @@ class BooksController extends BaseController
         $this->booksRepository = app(BooksRepository::class);
         $this->bookedRepository = app(BookedsRepository::class);
         $this->issuedRepository = app(IssuedsRepository::class);
-        //$this->books = app(Books::class);
+        $this->books = app(Books::class);
         $this->authors = app(Author::class);
         $this->genres = app(Genre::class);
         $this->publishings = app(Publishing::class);
@@ -63,9 +65,9 @@ class BooksController extends BaseController
      */
     public function create()
     {
-        $authors = $this->authors->getAllAuthor();
-        $genres = $this->genres->getAllGenres();
-        $publishings = $this->publishings->getAllPublishings();
+        $authors = $this->authors->get(array('id','name'));
+        $genres = $this->genres->get(array('id','title'));
+        $publishings = $this->publishings->get(array('id','title'));
         return view('library.librarian.create', compact('authors','genres','publishings'));
     }
 
@@ -75,14 +77,10 @@ class BooksController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookAddRequest $request)
     {
-        $book = Books::create([
-            'title' => $request->title,
-            'genre_id' => $request->genre,
-            'publishing_id' => $request->publishing,
-            'author_id' => $request->author,
-        ]);
+        //dd($request);
+        $book = Books::create($request->input());
 
         if(!$book){
             return back()
@@ -114,6 +112,7 @@ class BooksController extends BaseController
     public function booked()
     {
         $bookeds = $this->bookedRepository->getAllBooked();
+
         return view('library.librarian.booked', compact('bookeds'));
     }
 
@@ -125,6 +124,7 @@ class BooksController extends BaseController
     public function bookshand()
     {
         $bookshand = $this->issuedRepository->getAllIssued();
+        //dd($bookshand);
 
         return view('library.librarian.bookshand', compact('bookshand'));
     }
@@ -147,10 +147,10 @@ class BooksController extends BaseController
      *
      * @return void
      */
-    public function issued(Request $request)
+    public function issued(IssuedAddRequest $request)
     {
         $status = '2';
-        $issueds = Issued::insert([
+        $issueds = Issued::create([
         'books_id' => $request->book_id,
         'user_id' => $request->user_id,
         'created_at' => now(),

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Library\Librarian;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Librarian\PublishingAddRequest;
 use App\Http\Controllers\Library\Librarian\BaseController;
 use App\Models\Librarian\Publishing;
 
@@ -47,14 +47,12 @@ class PublishingController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PublishingAddRequest $request)
     {
-        if (count($this->publishing->checkPublishing($request->title)) == 0) {
-            $this->publishing->savePublishing($request->title);
+        if ($this->publishing->create($request->input())) {
             return redirect('/librarian/create')->withSuccess ('Издатель добавлен');
         }else{
             return back()
-            ->withFail('Такой издатель уже есть!')
             ->withInput();
         }
     }
@@ -88,10 +86,10 @@ class PublishingController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+   /* public function update(Request $request, $id)
     {
         //
-    }
+    }*/
 
     /**
      * Remove the specified resource from storage.

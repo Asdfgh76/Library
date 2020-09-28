@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="/admin/users">Пользователи</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Редактирование</li>
+                  <li class="breadcrumb-item active" aria-current="page">Изменение пароля</li>
                 </ol>
             </nav>
             @if(Session::has('success'))
@@ -22,17 +22,19 @@
             @endif
 
             <div class="card">
-                <div class="card-header">{{ __('Редактирование пользователя') }}</div>
+                <div class="card-header">{{ __('Изменение пароля') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
+                        <input type="hidden" name="user_id" value="{{$user->id}}">
                         @method('PUT')
                         @csrf
                         <div class="form-group row">
                             <label for="login" class="col-md-4 col-form-label text-md-right">{{ __('Login') }}</label>
 
                             <div class="col-md-6">
-                                <input id="login" type="text" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ $user->login }}" required autocomplete="login" autofocus>
+                                <input id="login" type="text" class="form-control-plaintext @error('login') is-invalid @enderror" name="login"
+                                value="{{ $user->login }}" required autocomplete="login" autofocus>
 
                                 @error('login')
                                     <span class="invalid-feedback" role="alert">
@@ -46,7 +48,8 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control-plaintext @error('email') is-invalid @enderror" name="email"
+                                value="{{ $user->email }}" required autocomplete="email">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -60,7 +63,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" placeholder="Введите новый пароль">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Введите новый пароль">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">

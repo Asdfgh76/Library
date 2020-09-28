@@ -28,11 +28,22 @@ class IssuedsRepository extends CoreRepository
      */
     public function getAllIssued()
     {
-        $bookshand = $this->startConditions()
+        /*$bookshand = $this->startConditions()
         ->join('books', 'issued.books_id', '=', 'books.id')
         ->join('users', 'issued.user_id', '=', 'users.id')
         ->select('issued.id','issued.created_at','issued.return_date','books.id as book_id','books.title','users.id as user_id','users.login')
         ->toBase()
+        ->paginate(10);*/
+
+        $bookshand = $this->startConditions()
+        ->with([
+            'books' => function ($query){
+            $query->select(['id','title']);
+        },
+            'users' => function ($query){
+            $query->select(['id','login']);
+        },
+        ])
         ->paginate(10);
 
         return $bookshand;
@@ -46,12 +57,21 @@ class IssuedsRepository extends CoreRepository
     public function getUserIssued()
     {
         $user_id = Auth::user()->id;
-        $bookshand = $this->startConditions()
+        /*$bookshand = $this->startConditions()
         ->join('books', 'issued.books_id', '=', 'books.id')
         ->join('users', 'issued.user_id', '=', 'users.id')
         ->select('issued.id','issued.created_at','issued.return_date','books.id as book_id','books.title','users.id as user_id','users.login')
         ->where('issued.user_id', '=', $user_id)
         ->toBase()
+        ->paginate(10);*/
+
+        $bookshand = $this->startConditions()
+        ->with([
+            'books' => function ($query){
+            $query->select(['id','title']);
+        },
+        ])
+        ->where('user_id', '=', $user_id)
         ->paginate(10);
 
         return $bookshand;

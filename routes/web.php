@@ -29,8 +29,6 @@ Route::group(['middleware' => ['status','auth']], function () {
     ];
 
 Route::group($groupData, function () {
-    Route::resource('index', 'MainController')
-    ->names('admin');
 
     Route::resource('users', 'UserController')
     ->names('admin.users');

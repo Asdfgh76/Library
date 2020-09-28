@@ -16,7 +16,6 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Название книги</th>
                                 <th>Логин пользователя</th>
                                 <th>Дата выдачи</th>
@@ -25,21 +24,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1 @endphp
                             @foreach($bookshand as $bookhand)
                                 <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $bookhand->title }}</td>
-                                    <td>{{ $bookhand->login }}</td>
+                                    <td>{{ $bookhand->books->title }}</td>
+                                    <td>{{ $bookhand->users->login }}</td>
                                     <td>{{ $bookhand->created_at }}</td>
                                     <td>{{ $bookhand->return_date }}</td>
                                     <td>
-                                        <a class="btn btn-xs" href = "{{ route('librarian.accepted', $bookhand->book_id)}}">
+                                        <a class="btn btn-xs" href = "{{ route('librarian.accepted', $bookhand->books_id)}}">
                                         <button type = "button" class = "btn btn-success">Принять</button>
                                         </a>
                                     </td>
                                 </tr>
-                                @php $i=$i+1 @endphp
                             @endforeach
                         </tbody>
                         <tfoot></tfoot>

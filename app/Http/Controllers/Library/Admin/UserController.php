@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Library\Admin;
 
-use App\Http\Requests\AdminUserEditRequest;
+use App\Http\Requests\Admin\AdminUserEditRequest;
+use App\Http\Requests\Admin\AdminUserAddRequest;
 use App\Http\Controllers\Library\Admin\AdminBaseController;
 use App\Repositories\Admin\UserRepository;
 use Illuminate\Support\Facades\Hash;
@@ -50,20 +51,22 @@ class UserController extends AdminBaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminUserEditRequest $request)
+    public function store(AdminUserAddRequest $request)
     {
-        $user = User::create([
+        //dd($request->input());
+        /*$user = User::create([
             'login' => $request->login,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+        ]);*/
+        $user = User::create($request->input());
 
         if(!$user){
             return back()
             ->withFail('Ошибка!')
             ->withInput();
         }else{
-            $role = UserRole::create([
+            UserRole::create([
                 'user_id' => $user->id,
                 'role_id' => 2
             ]);
@@ -94,10 +97,9 @@ class UserController extends AdminBaseController
      */
     public function update(AdminUserEditRequest $request, $id)
     {
+
         $user = $this->userRepository->getId($id);
 
-        $user->login = $request->login;
-        $user->email = $request->email;
         $request->password == null ? : $user->password = Hash::make($request->password);
         $save = $user->save();
 
@@ -108,7 +110,7 @@ class UserController extends AdminBaseController
         }else{
             return redirect()
             ->route('admin.users.edit',$id)
-            ->withSuccess ('Данные пользователя изменены');
+            ->withSuccess ('Пароль пользователя изменен');
         }
 
     }

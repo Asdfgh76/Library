@@ -87,12 +87,12 @@
 
                     @auth
                     @if(Auth::user()->isLibrarian())
-                        <strong> <a href="{{ url('/') }}" style='color:azure; text-decoration:none'>Главная</a></strong>
+                        <strong> <a href="{{ url('/librarian') }}" style='color:azure; text-decoration:none'>Панель библиотекаря</a></strong>
                     @elseif(Auth::user()->isUser())
-                        <strong> <a href="{{ url('/user/index') }}" style='color:azure; text-decoration:none'>Кабинет</a></strong>
+                        <strong> <a href="{{ url('/user') }}" style='color:azure; text-decoration:none'>Кабинет</a></strong>
                         <strong> <a href="{{ url('/') }}" style='color:azure; text-decoration:none'>Главная</a></strong>
                     @elseif(Auth::user()->isAdministrator())
-                        <strong> <a href="{{ url('/admin/index') }}" style='color:azure; text-decoration:none; cursor:pointer'>Панель Администратора</a></strong>
+                        <strong> <a href="{{ url('/admin/users') }}" style='color:azure; text-decoration:none; cursor:pointer'>Панель Администратора</a></strong>
                         <strong> <a href="{{ url('/') }}" style='color:azure; text-decoration:none'>Главная</a></strong>
                     @endif
                         <strong>

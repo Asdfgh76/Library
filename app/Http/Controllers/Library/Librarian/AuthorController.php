@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Library\Librarian;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Librarian\AuthorAddRequest;
 use App\Http\Controllers\Library\Librarian\BaseController;
 use App\Models\Librarian\Author;
 
@@ -47,14 +47,14 @@ class AuthorController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorAddRequest $request)
     {
-        if (count($this->author->checkAuthor($request->name)) == 0) {
-            $this->author->saveAuthor($request->name);
-            return redirect('/librarian/create')->withSuccess ('Автор добавлен');
+
+        if ($this->author->create($request->input())) {
+            return redirect('/librarian/create')
+            ->withSuccess('Автор добавлен');
         }else{
             return back()
-            ->withFail('Такой автор уже есть!')
             ->withInput();
         }
     }
@@ -88,10 +88,10 @@ class AuthorController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    /*public function update(Request $request, $id)
     {
         //
-    }
+    }*/
 
     /**
      * Remove the specified resource from storage.

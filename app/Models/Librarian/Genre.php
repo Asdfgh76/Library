@@ -3,47 +3,18 @@
 namespace App\Models\Librarian;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Genre extends Model
 {
+    protected $table = 'genre';
+
     protected $fillable = [
         'title',
     ];
 
-    /**
-     * Вывод всех жанров
-     *
-     * @return void
-     */
-    public function getAllGenres()
+    public function books()
     {
-        $genre = DB::table('Genre')->select('id','title')->get();
-        return $genre;
+        return $this->hasMany(Books::class);
     }
 
-    /**
-     * Сохранение нового жанра
-     *
-     * @param  mixed $title
-     * @return void
-     */
-    public function saveGenre($title)
-    {
-        DB::table('genre')->insert(
-            ['title' => $title]
-          );
-    }
-
-    /**
-     * Проверка жанра по названию
-     *
-     * @param  mixed $title
-     * @return void
-     */
-    public function checkGenre($title)
-    {
-        $genre = DB::table('genre')->where('title', '=', $title)->get();
-        return $genre;
-    }
 }

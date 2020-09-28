@@ -22,7 +22,6 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Название</th>
                                 <th>Автор</th>
                                 <th>Жанр</th>
@@ -32,21 +31,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1 @endphp
                             @foreach($books as $book)
                                 <tr>
-                                    <td>{{ $i }}</td>
                                     <td>{{ $book->title }}</td>
-                                    <td>{{ $book->author }}</td>
-                                    <td>{{ $book->genre }}</td>
-                                    <td>{{ $book->publishing }}</td>
+                                    <td>{{ $book->author->name }}</td>
+                                    <td>{{ $book->genre->title }}</td>
+                                    <td>{{ $book->publishing->title }}</td>
                                     <td style="font-size:20px">
                                         @if($book->status == 0)
-                                        <span class="col-md-12 badge badge-success">В наличии</span>
+                                        <span class="badge badge-success col-md-12">В наличии</span>
                                         @elseif($book->status == 1)
-                                        <span class="col-md-12 badge badge-secondary">Забронированна</span>
+                                        <span class="badge badge-secondary col-md-12">Забронированна</span>
                                         @elseif($book->status == 2)
-                                        <span class="col-md-12 badge badge-warning">Выданна</span>
+                                        <span class="badge badge-warning col-md-12">Выданна</span>
                                         @endif
                                     </td>
                                     <td>
@@ -55,7 +52,6 @@
                                         </a>
                                     </td>
                                 </tr>
-                                @php $i=$i+1 @endphp
                             @endforeach
                         </tbody>
                         <tfoot></tfoot>

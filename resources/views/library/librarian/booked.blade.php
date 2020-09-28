@@ -34,8 +34,8 @@
                             @foreach($bookeds as $booked)
                                 <tr>
                                     <td>{{ $i }}</td>
-                                    <td>{{ $booked->title }}</td>
-                                    <td>{{ $booked->login }}</td>
+                                    <td>{{ $booked->books->title }}</td>
+                                    <td>{{ $booked->users->login }}</td>
                                     <td>{{ $booked->created_at }}</td>
                                     <td>{{ $booked->end_date }}</td>
                                     <td>

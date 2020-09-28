@@ -17,23 +17,19 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Название книги</th>
                                 <th>Дата выдачи</th>
                                 <th>Дата возврата</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1 @endphp
-                            @foreach($bookshand as $bookhand)
 
+                            @foreach($bookshand as $bookhand)
                                 <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $bookhand->title }}</td>
+                                    <td>{{ $bookhand->books->title }}</td>
                                     <td>{{ $bookhand->created_at }}</td>
                                     <td>{{ $bookhand->return_date }}</td>
                                 </tr>
-                                @php $i=$i+1 @endphp
                             @endforeach
                         </tbody>
                         <tfoot></tfoot>

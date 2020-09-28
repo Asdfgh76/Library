@@ -40,7 +40,7 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                             <tr>
-                                <th>#</th>
+
                                 <th>Название</th>
                                 <th>Автор</th>
                                 <th>Жанр</th>
@@ -50,15 +50,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1 @endphp
+
                             @foreach($books as $book)
                                 <tr>
-                                    <td>{{ $i }}</td>
+
                                     <td>{{ $book->title }}</td>
-                                    <td>{{ $book->author }}</td>
-                                    <td>{{ $book->genre }}</td>
-                                    <td>{{ $book->publishing }}</td>
-                                    <td style="font-size:17px">
+                                    <td>{{ $book->author->name }}</td>
+                                    <td>{{ $book->genre->title }}</td>
+                                    <td>{{ $book->publishing->title }}</td>
+                                    <td style="font-size:20px">
                                         @if($book->status == 0)
                                         <span class="badge badge-success col-md-12">В наличии</span>
                                         @elseif($book->status == 1)
@@ -77,7 +77,7 @@
                                     </a>
                                     </td>
                                 </tr>
-                                @php $i=$i+1 @endphp
+
                             @endforeach
                         </tbody>
                         <tfoot></tfoot>

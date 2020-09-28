@@ -31,7 +31,7 @@
                         <div class="form-group row align-items-center">
                             <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Название') }}</label>
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus>
+                                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" autocomplete="title" autofocus>
 
                                 @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -43,13 +43,13 @@
                         <div class="form-group row align-items-center">
                             <label for="author" class="col-md-4 col-form-label text-md-right">{{ __('Автор') }}</label>
                             <div class="col-md-5">
-                            <select name="author" id="author" class="form-control" >
-                                <option value="0">Выберите автора</option>
+                            <select name="author_id" id="author" class="form-control @error('author_id') is-invalid @enderror" >
+                                <option value="">Выберите автора</option>
                                 @foreach($authors as $author)
                                     <option value="{{$author->id}}">{{$author->name}} </option>
                                 @endforeach
                             </select>
-                                @error('author')
+                                @error('author_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -64,14 +64,14 @@
                             <label for="genre" class="col-md-4 col-form-label text-md-right">{{ __('Жанр') }}</label>
 
                             <div class="col-md-5">
-                                <select name="genre" id="genre" class="form-control" >
-                                    <option value="0">Выберите жанр</option>
+                                <select name="genre_id" id="genre" class="form-control @error('genre_id') is-invalid @enderror" >
+                                    <option value="">Выберите жанр</option>
                                     @foreach($genres as $genre)
                                         <option value="{{$genre->id}}">{{$genre->title}} </option>
                                     @endforeach
                                 </select>
 
-                                @error('genre')
+                                @error('genre_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -86,14 +86,14 @@
                             <label for="publishing" class="col-md-4 col-form-label text-md-right">{{ __('Издательство') }}</label>
 
                             <div class="col-md-5">
-                                <select name="publishing" id="publishing" class="form-control" >
-                                    <option value="0">Выберите издательство</option>
+                                <select name="publishing_id" id="publishing" class="form-control @error('publishing_id') is-invalid @enderror" >
+                                    <option value="">Выберите издательство</option>
                                     @foreach($publishings as $publishing)
                                         <option value="{{$publishing->id}}">{{$publishing->title}} </option>
                                     @endforeach
                                 </select>
 
-                                @error('publishing')
+                                @error('publishing_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

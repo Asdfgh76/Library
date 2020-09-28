@@ -30,17 +30,17 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                             <tr>
-                                <th>#</th>
+
                                 <th>Логин</th>
                                 <th>Email</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1 @endphp
+
                             @foreach($users as $user)
                                 <tr>
-                                    <td>{{ $i }}</td>
+
                                     <td>{{ $user->login }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
@@ -56,7 +56,7 @@
                                         </a>
                                     </td>
                                 </tr>
-                                @php $i=$i+1 @endphp
+
                             @endforeach
                         </tbody>
                         <tfoot></tfoot>

@@ -21,7 +21,6 @@
                     <table class="table table-hover" style="text-align: center">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Название книги</th>
                                 <th>Дата бронирования</th>
                                 <th>Забронированна до:</th>
@@ -29,23 +28,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $i=1 @endphp
                             @foreach($books as $book)
                                 <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ $book->title }}</td>
+                                    <td>{{ $book->books->title }}</td>
                                     <td>{{ $book->created_at }}</td>
                                     <td>{{ $book->end_date }}</td>
                                     <td>
                                         <a class="btn btn-xs">
-                                            <form method = "POST" action = "{{ route('user.destroybooked', $book->book_id)}}" style="float: none">
+                                            <form method = "POST" action = "{{ route('user.destroybooked', $book->books_id)}}" style="float: none">
                                                 @csrf
                                                 <button type = "submit" class = "btn btn-danger">Убрать бронь</button>
                                             </form>
                                         </a>
                                     </td>
                                 </tr>
-                                @php $i=$i+1 @endphp
                             @endforeach
                         </tbody>
                         <tfoot></tfoot>

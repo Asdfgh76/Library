@@ -27,15 +27,43 @@ class BooksRepository extends CoreRepository
      */
     public function getAllBooks()
     {
-        $books = $this->startConditions()
-        ->join('genre', 'books.genre_id', '=', 'genre.id')
+
+        /*$books = $this->startConditions()
+            ->join('genre', 'books.genre_id', '=', 'genre.id')
             ->join('author', 'books.author_id', '=', 'author.id')
             ->join('publishing', 'books.publishing_id', '=', 'publishing.id')
             ->select('books.id','books.title','books.status','genre.title as genre', 'author.name as author','publishing.title as publishing')
             ->orderBy('books.id', 'asc')
             ->toBase()
             ->paginate(10);
-
+            /*$books = $this->startConditions()
+            //->with('author','genre','publishing')
+            ->with([
+                'author' => function ($query){
+                $query->select(['id','name']);
+            },
+                'genre' => function ($query){
+                $query->select(['id','title']);
+            },
+                'publishing' => function ($query){
+                $query->select(['id','title']);
+            }
+            ])
+            ->paginate(10);*/
+            $books = $this->startConditions()
+            ->with([
+                'author' => function ($query){
+                $query->select(['id','name']);
+            },
+                'genre' => function ($query){
+                $query->select(['id','title']);
+            },
+                'publishing' => function ($query){
+                $query->select(['id','title']);
+            }
+            ])
+            ->paginate(10);
+            //dd($books);
         return $books;
     }
 
@@ -46,17 +74,51 @@ class BooksRepository extends CoreRepository
      * @param  mixed $line
      * @return void
      */
-    public function searchTitle($val,$line)
+    public function searchTitle($val, $line, $search)
     {
-        $books = $this->startConditions($val)
-        ->join('genre', 'books.genre_id', '=', 'genre.id')
+        /*$books = $this->startConditions()
+            ->join('genre', 'books.genre_id', '=', 'genre.id')
             ->join('author', 'books.author_id', '=', 'author.id')
             ->join('publishing', 'books.publishing_id', '=', 'publishing.id')
             ->select('books.id','books.title','books.status','genre.title as genre', 'author.name as author','publishing.title as publishing')
             ->where($line, 'like', "%$val%")
             ->orderBy('books.id', 'asc')
             ->toBase()
+            ->paginate(10);*/
+
+            if ($search == 'title') {
+            $books = $this->startConditions()
+            ->with([
+                'author' => function ($query){
+                $query->select(['id','name']);
+            },
+                'genre' => function ($query){
+                $query->select(['id','title']);
+            },
+                'publishing' => function ($query){
+                $query->select(['id','title']);
+            }
+            ])
+            ->where($line, 'like', "%$val%")
             ->paginate(10);
+            }else{
+            $books = $this->startConditions()
+            ->with([
+                'author' => function ($query){
+                $query->select(['id','name']);
+            },
+                'genre' => function ($query){
+                $query->select(['id','title']);
+            },
+                'publishing' => function ($query){
+                $query->select(['id','title']);
+            }
+            ])
+            ->whereHas($search,function ($query) use ($line,$val) {
+                $query->where($line, 'like', "%$val%");
+              })
+            ->paginate(10);
+            }
 
         return $books;
     }
@@ -69,16 +131,30 @@ class BooksRepository extends CoreRepository
      */
     public function showBook($id)
     {
-        $books = $this->startConditions()
-        ->join('genre', 'books.genre_id', '=', 'genre.id')
+        /*$books = $this->startConditions()
+            ->join('genre', 'books.genre_id', '=', 'genre.id')
             ->join('author', 'books.author_id', '=', 'author.id')
             ->join('publishing', 'books.publishing_id', '=', 'publishing.id')
             ->select('books.id','books.title','books.status','genre.title as genre', 'author.name as author','publishing.title as publishing')
             ->where('books.id', '=', $id)
             ->toBase()
+            ->get();*/
+            $book = $this->startConditions()
+            ->with([
+                'author' => function ($query){
+                $query->select(['id','name']);
+            },
+                'genre' => function ($query){
+                $query->select(['id','title']);
+            },
+                'publishing' => function ($query){
+                $query->select(['id','title']);
+            }
+            ])
+            ->where('id', '=', $id)
             ->get();
 
-        return $books;
+        return $book;
     }
 
     /**
@@ -93,5 +169,10 @@ class BooksRepository extends CoreRepository
         $this->startConditions()
             ->where('id', '=', $id)
             ->update(['status' => $status]);
+    }
+
+    public  function scopeLike($query, $field, $value)
+    {
+        return $query->where($field, 'LIKE', "%$value%");
     }
 }

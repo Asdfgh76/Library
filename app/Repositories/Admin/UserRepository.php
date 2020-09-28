@@ -3,9 +3,9 @@
 namespace App\Repositories\Admin;
 
 use App\Repositories\CoreRepository;
-use Illuminate\Support\Facades\Hash;
+
 use App\Models\Admin\User as Model;
-use App\Models\Role;
+
 
 class UserRepository extends CoreRepository
 {
@@ -27,7 +27,7 @@ class UserRepository extends CoreRepository
 
     public function getAllUsers()
     {
-        $users = $this->startConditions()
+        /*$users = $this->startConditions()
         ->select('id','login','email')
         ->join('user_roles', function ($join) {
             $join->on('users.id', '=', 'user_roles.user_id')
@@ -35,7 +35,21 @@ class UserRepository extends CoreRepository
         })
         ->orderBy('users.id')
         ->toBase()
-        ->paginate(10);
+        ->paginate(10);*/
+       /* $users = $this->startConditions()
+        ->with([
+            'user_roles' => function ($query){
+            $query->where('role_id', '=', 2);
+        }
+        ])
+        ->orderBy('users.id')
+        ->toBase()
+        ->paginate(10);*/
+        $users = Model::whereHas('roles', function ($query) {
+            $query->where('role_id', '=', 2);
+          })
+          ->paginate(10);
+
         return $users;
     }
 

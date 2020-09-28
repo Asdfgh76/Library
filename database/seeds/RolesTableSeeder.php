@@ -4,7 +4,7 @@
 
     class RolesTableSeeder extends Seeder
     {
-        /**R
+        /**
          * Run the database seeds.
          *
          * @return void

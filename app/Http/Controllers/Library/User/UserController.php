@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Library\User;
 
+use App\Http\Requests\Librarian\SearchBooksRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\Library\User\BaseController;
@@ -18,7 +19,6 @@ class UserController extends BaseController
     private $booksRepository;
     private $bookedRepository;
     private $issuedRepository;
-    private $books;
 
     public function __construct()
     {
@@ -26,7 +26,6 @@ class UserController extends BaseController
         $this->booksRepository = app(BooksRepository::class);
         $this->bookedRepository = app(BookedsRepository::class);
         $this->issuedRepository = app(IssuedsRepository::class);
-        $this->books = app(Books::class);
     }
 
     /**
@@ -82,7 +81,7 @@ class UserController extends BaseController
             $book->status = '1';
             $book->save();
 
-            return redirect('/user')->withSuccess ('Книга забронированна');
+            return redirect('/user')->withSuccess('Книга забронированна');
         }
     }
 
@@ -142,10 +141,12 @@ class UserController extends BaseController
      *
      * @return void
      */
-    public function outputsearch(Request $request)
+    public function outputsearch(SearchBooksRequest $request)
     {
-        $books = $this->booksRepository->searchTitle($request->val,$request->line);
+
+        $books = $this->booksRepository->searchTitle($request->val,$request->line,$request->search);
         $search = $request->search;
+
             if(count($books)==0){
                 return view('library.user.search', compact('search'));
             }else{

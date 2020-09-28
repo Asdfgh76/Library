@@ -28,11 +28,22 @@ class BookedsRepository extends CoreRepository
      */
     public function getAllBooked()
     {
-        $bookeds = $this->startConditions()
+        /*$bookeds = $this->startConditions()
         ->join('books', 'booked.books_id', '=', 'books.id')
         ->join('users', 'booked.user_id', '=', 'users.id')
         ->select('booked.id','books.id as book_id','booked.created_at','booked.end_date','books.title','users.id as user_id','users.login')
         ->toBase()
+        ->paginate(10);*/
+
+        $bookeds = $this->startConditions()
+        ->with([
+            'books' => function ($query){
+            $query->select(['id','title']);
+        },
+            'users' => function ($query){
+            $query->select(['id','login']);
+        },
+        ])
         ->paginate(10);
 
         return $bookeds;
@@ -57,14 +68,23 @@ class BookedsRepository extends CoreRepository
     public function userBooked()
     {
         $user_id = Auth::user()->id;
-        $bookeds = $this->startConditions()
+        /*$bookeds = $this->startConditions()
         ->join('books', 'booked.books_id', '=', 'books.id')
         ->join('users', 'booked.user_id', '=', 'users.id')
         ->select('booked.id','books.id as book_id','booked.created_at','booked.end_date','books.title','users.id as user_id','users.login')
         ->where('booked.user_id', '=', $user_id)
         ->toBase()
-        ->paginate(10);
+        ->paginate(10);*/
 
+        $bookeds = $this->startConditions()
+        ->with([
+            'books' => function ($query){
+            $query->select(['id','title']);
+        },
+        ])
+        ->where('user_id', '=', $user_id)
+        ->paginate(10);
+//dd($bookeds);
         return $bookeds;
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AdminUserEditRequest extends FormRequest
 {
@@ -23,18 +24,7 @@ class AdminUserEditRequest extends FormRequest
      */
     public function rules()
     {
-        //dd($_POST);
-        //$id = $_POST['id'];
-
         return [
-            'login' => 'required|min:3|max:20|string',
-            'email' => [
-            'required',
-            'string',
-            'email',
-            'max:255',
-                //\Illuminate\Validation\Rule::unique('users')->ignore($id),
-            ],
             'password' => 'nullable|string|min:8|max:20',
         ];
     }
@@ -42,8 +32,8 @@ class AdminUserEditRequest extends FormRequest
     public function messages()
     {
         return[
-            'login.min' => 'Минимальная длина логина 3 символа',
-            'email.unique' => 'Такой email уже занят',
+            'password.min' => 'Минимальная длина пароля 3 символа',
+            'password.max' => 'Максимальная длина пароля 20 символа',
         ];
     }
 }

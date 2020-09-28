@@ -20,7 +20,7 @@
                     <option value="title">Названию</option>
                     <option value="author">Автору</option>
                     <option value="genre">Жанру</option>
-                    <option value="pub">Издательству</option>
+                    <option value="publishing">Издательству</option>
                 </select>
             </div>
         </div>

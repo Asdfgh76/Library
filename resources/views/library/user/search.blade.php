@@ -23,33 +23,34 @@
                     @csrf
                     <div class="form-group row">
                         <div class="col-md-6">
+
                             @switch($search)
                             @case('title')
                                 <input id="title" type="text" class="form-control"
                                 name="val" value="{{ old('title') }}" autofocus placeholder="Поиск по названию">
-                                <input type="hidden" name="line" value="books.title">
+                                <input type="hidden" name="line" value="title">
                                 <input type="hidden" name="search" value="title">
                             @break
 
                             @case('author')
                                 <input id="author" type="text" class="form-control"
                                 name="val" value="{{ old('author') }}" autofocus placeholder="Поиск по автору">
-                                <input type="hidden" name="line" value="author.name">
+                                <input type="hidden" name="line" value="name">
                                 <input type="hidden" name="search" value="author">
                             @break
 
                             @case('genre')
-                                <input id="genre" type="text" class="form-control @error('genre') is-invalid @enderror"
+                                <input id="genre" type="text" class="form-control"
                                 name="val" value="{{ old('genre') }}" autofocus placeholder="Поиск по жанру">
-                                <input type="hidden" name="line" value="genre.title">
+                                <input type="hidden" name="line" value="title">
                                 <input type="hidden" name="search" value="genre">
                             @break
 
-                            @case('pub')
-                                <input id="pub" type="text" class="form-control @error('pub') is-invalid @enderror"
+                            @case('publishing')
+                                <input id="publishing" type="text" class="form-control"
                                 name="val" value="{{ old('pub') }}" autofocus placeholder="Поиск по издателю">
-                                <input type="hidden" name="line" value="publishing.title">
-                                <input type="hidden" name="search" value="pub">
+                                <input type="hidden" name="line" value="title">
+                                <input type="hidden" name="search" value="publishing">
                             @break
 
                             @default
@@ -79,9 +80,9 @@
                             @foreach($books as $book)
                                 <tr>
                                     <td>{{ $book->title }}</td>
-                                    <td>{{ $book->author }}</td>
-                                    <td>{{ $book->genre }}</td>
-                                    <td>{{ $book->publishing }}</td>
+                                    <td>{{ $book->author->name }}</td>
+                                    <td>{{ $book->genre->title }}</td>
+                                    <td>{{ $book->publishing->title }}</td>
                                     <td style="font-size:20px">
                                         @if($book->status == 0)
                                         <span class="col-md-12 badge badge-success">В наличии</span>

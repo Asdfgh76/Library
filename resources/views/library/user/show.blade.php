@@ -37,9 +37,9 @@
                                 <tr>
                                     <td>{{ $boo->id }}</td>
                                     <td>{{ $boo->title }}</td>
-                                    <td>{{ $boo->author }}</td>
-                                    <td>{{ $boo->genre }}</td>
-                                    <td>{{ $boo->publishing }}</td>
+                                    <td>{{ $boo->author->name }}</td>
+                                    <td>{{ $boo->genre->title }}</td>
+                                    <td>{{ $boo->publishing->title }}</td>
                                     <td style="font-size:20px">
                                         @if($boo->status == 0)
                                         <span class="col-md-12 badge badge-success">В наличии</span>
