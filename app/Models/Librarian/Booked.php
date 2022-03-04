@@ -3,7 +3,7 @@
 namespace App\Models\Librarian;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
+use App\User;
 
 class Booked extends Model
 {
@@ -11,13 +11,13 @@ class Booked extends Model
     protected $table = 'booked';
 
     protected $fillable = [
-        'books_id',
+        'book_id',
         'user_id',
     ];
 
     public function books()
     {
-        return $this->belongsTo(Books::class);
+        return $this->belongsTo(Book::class);
     }
 
     public function users()

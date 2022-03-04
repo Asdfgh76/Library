@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Librarian\Book;
+
 class HomeController extends Controller
 {
     /**
@@ -11,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -19,8 +23,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('welcome');
+        $books = Book::with('author','genre','publishing','booked')->paginate(10);
+
+        return view('home',compact('books'));
+    }
+
+    public function showBook(Book $book)
+    {
+        return view('show ', compact('book'));
     }
 }

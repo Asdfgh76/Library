@@ -7,14 +7,13 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         <style>
             html, body {
-                background-image: url("{{asset('images/library.jpg')}}");
-                background-size: 100%;
-                color: azure;
+                background-color: #fff;
+                color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
@@ -36,12 +35,9 @@
             }
 
             .top-right {
-                /*position: absolute;*/
+                position: absolute;
                 right: 10px;
                 top: 18px;
-                opacity: 0.8;
-                background-color:brown;
-                text-align: center;
             }
 
             .content {
@@ -52,31 +48,18 @@
                 font-size: 84px;
             }
 
-            .links>strong>a {
-                color: azure;
+            .links > a {
+                color: #636b6f;
                 padding: 0 25px;
-                font-size: 23px;
+                font-size: 13px;
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
                 text-transform: uppercase;
             }
 
-            .links>strong>a:hover {
-                font-size: 28px;
-            }
-
             .m-b-md {
                 margin-bottom: 30px;
-            }
-
-
-            .links>p{
-                padding: 5px;
-                margin-right: 40px;
-                font-size: 23px;
-                font-weight: 600;
-                margin-left: 20px;
             }
         </style>
     </head>
@@ -84,43 +67,34 @@
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
-
                     @auth
-                    @if(Auth::user()->isLibrarian())
-                        <strong> <a href="{{ url('/librarian') }}" style='color:azure; text-decoration:none'>Панель библиотекаря</a></strong>
-                    @elseif(Auth::user()->isUser())
-                        <strong> <a href="{{ url('/user') }}" style='color:azure; text-decoration:none'>Кабинет</a></strong>
-                        <strong> <a href="{{ url('/') }}" style='color:azure; text-decoration:none'>Главная</a></strong>
-                    @elseif(Auth::user()->isAdministrator())
-                        <strong> <a href="{{ url('/admin/users') }}" style='color:azure; text-decoration:none; cursor:pointer'>Панель Администратора</a></strong>
-                        <strong> <a href="{{ url('/') }}" style='color:azure; text-decoration:none'>Главная</a></strong>
-                    @endif
-                        <strong>
-                        <a class="dropdown-item" href="{{ route('logout') }}" style='color:azure; text-decoration:none' onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">Выйти</a></strong>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-
+                        <a href="{{ url('logout') }}">Home</a>
                     @else
-                    <p>Добро пожаловать в библиотеку!<br>
-                    Чтобы воспользоваться нашей библиотекой</p>
-                        <strong>
-                        <a href="{{ route('login') }}" style="color: azure; text-decoration:none">Войдите</a>
-                        </strong>
-                    <p>или</p>
+                        <a href="{{ route('login') }}">Login</a>
+
                         @if (Route::has('register'))
-                        <strong>
-                            <a href="{{ route('register') }}" style="color:azure; text-decoration:none">Зарегиструйтесь</a>
-                            </strong>
+                            <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
                 </div>
             @endif
 
+            <div class="content">
+                <div class="title m-b-md">
+                    Laravel
+                </div>
 
-
+                <div class="links">
+                    <a href="https://laravel.com/docs">Docs</a>
+                    <a href="https://laracasts.com">Laracasts</a>
+                    <a href="https://laravel-news.com">News</a>
+                    <a href="https://blog.laravel.com">Blog</a>
+                    <a href="https://nova.laravel.com">Nova</a>
+                    <a href="https://forge.laravel.com">Forge</a>
+                    <a href="https://vapor.laravel.com">Vapor</a>
+                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                </div>
+            </div>
         </div>
     </body>
 </html>

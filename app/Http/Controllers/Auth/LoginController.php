@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -22,6 +24,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -31,27 +40,23 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected function redirectTo()
-    {
-        if (auth()->user()->isAdministrator()) {
-            return '/admin/users';
-        }
-        elseif(auth()->user()->isLibrarian()){
-            return '/librarian';
-        }
-        elseif(auth()->user()->isUser()){
-            return '/user';
-        }
-        return '/home';
-    }
-
     public function username()
     {
-    return 'login';
+        $login = request()->input('name');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        request()->merge([$field => $login]);
+        return $field;
     }
+
+    /**
+     * Сразу после входа выполняем редирект и устанавливаем flash-сообщение
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $message = 'Добро пожаловать, '.$user->name;
+
+        return redirect()->route('home')
+            ->with('success', $message);
+    }
+
 }

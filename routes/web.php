@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,45 +14,49 @@
 |
 */
 
-//use Illuminate\Routing\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () { return view('welcome');});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/showbook/{book}', 'HomeController@showBook')->name('showbook');
 
-/** Admin side */
-Route::group(['middleware' => ['status','auth']], function () {
-    $groupData = [
-    'namespace' => 'Library\Admin',
-    'prefix' => 'admin',
-    ];
 
-Route::group($groupData, function () {
 
-    Route::resource('users', 'UserController')
-    ->names('admin.users');
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::middleware(['auth'])->group(function () {
+    Route::group([
+        'namespace' => 'User',
+        'prefix' => 'user',
+        'as' => 'user.',
+    ], function () {
+            //Route::resource('book', 'BookController');
+            Route::post('/addBookedBook/{book}', 'BookedController@addBookedBook')->name('addBookedBook');
+            Route::get('/bookedBooks', 'BookedController@bookedBooks')->name('bookedBook');
+
+    });
+    Route::group([
+        'namespace' => 'Admin',
+        'prefix' => 'admin',
+        'as' => 'admin.',
+    ], function () {
+        Route::group(['middleware' => 'role:admin'], function () {
+            Route::resource('user', 'UserController');
+        });
+    });
+    Route::group([
+        'namespace' => 'Librarian',
+        'prefix' => 'librarian',
+        'as' => 'librarian.',
+    ], function () {
+        Route::group(['middleware' => 'role:librarian'], function () {
+            Route::get('/bookedBooks', 'BookedController@bookedBooks')->name('bookedBook');
+            Route::resource('book', 'BookController');
+            Route::resource('author', 'AuthorController');
+            Route::resource('genre', 'GenreController');
+            Route::resource('publishing', 'PublishingController');
+
+        });
+    });
 });
-});
-
-Route::post('user/outputsearch', 'Library\User\UserController@outputsearch')->name('user.outputsearch');
-Route::post('user/search', 'Library\User\UserController@search')->name('user.search');
-Route::get('user/bookshand', 'Library\User\UserController@bookshand')->name('user.bookshand');
-Route::post('user/{id}/destroybooked', 'Library\User\UserController@destroyBooked')->name('user.destroybooked');
-Route::get('user/booked', 'Library\User\UserController@booked')->name('user.booked');
-Route::post('user/tobook', 'Library\User\UserController@toBook')->name('user.tobook');
-Route::resource('user', 'Library\User\UserController');
-
-Route::get('librarian/{id}/accepted/', 'Library\Librarian\BooksController@accepted')->name('librarian.accepted');
-Route::get('librarian/bookshand', 'Library\Librarian\BooksController@bookshand')->name('librarian.bookshand');
-Route::post('librarian/issued', 'Library\Librarian\BooksController@issued')->name('librarian.issued');
-Route::post('librarian/{id}/destroybooked', 'Library\Librarian\BooksController@destroyBooked')->name('librarian.destroybooked');
-Route::get('librarian/booked', 'Library\Librarian\BooksController@booked')->name('librarian.booked');
-Route::resource('librarian', 'Library\Librarian\BooksController');
-
-Route::resource('librarian/author', 'Library\Librarian\AuthorController');
-Route::resource('librarian/genre', 'Library\Librarian\GenreController');
-Route::resource('librarian/publishing', 'Library\Librarian\PublishingController');
