@@ -27,24 +27,6 @@ class UserRepository extends CoreRepository
 
     public function getAllUsers()
     {
-        /*$users = $this->startConditions()
-        ->select('id','login','email')
-        ->join('user_roles', function ($join) {
-            $join->on('users.id', '=', 'user_roles.user_id')
-                 ->where('user_roles.role_id', '=', 2);
-        })
-        ->orderBy('users.id')
-        ->toBase()
-        ->paginate(10);*/
-       /* $users = $this->startConditions()
-        ->with([
-            'user_roles' => function ($query){
-            $query->where('role_id', '=', 2);
-        }
-        ])
-        ->orderBy('users.id')
-        ->toBase()
-        ->paginate(10);*/
         $users = Model::whereHas('roles', function ($query) {
             $query->where('role_id', '=', 2);
           })
