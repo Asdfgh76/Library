@@ -28,6 +28,8 @@ class HomeController extends Controller
         $books = Book::with('author','genre','publishing','booked')->paginate(10);
 
         return view('home',compact('books'));
+        //echo "QWerty";
+
     }
 
     public function showBook(Book $book)
